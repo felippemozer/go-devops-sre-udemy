@@ -13,7 +13,6 @@ import (
 func Secret(user, realm string) string {
 	if user == "felippe" {
 		val := os.Getenv("FELIPPE_PASSWORD")
-		fmt.Println(val)
 		return val
 	}
 	return ""
