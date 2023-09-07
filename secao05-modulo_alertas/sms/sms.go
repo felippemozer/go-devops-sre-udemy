@@ -11,16 +11,16 @@ import (
 	"strings"
 )
 
-func SendSMS(message string, phone string) {
+func SendSMS(message string, phone string) error {
 
 	apiKey := os.Getenv("VONAGE_API_KEY")
 	if apiKey == "" {
-		panic("VONAGE_API_KEY não foi configurado")
+		return fmt.Errorf("variável de ambiente VONAGE_API_KEY não foi configurada")
 	}
 
 	apiSecret := os.Getenv("VONAGE_API_SECRET")
 	if apiSecret == "" {
-		panic("VONAGE_API_SECRET não foi configurado")
+		return fmt.Errorf("variável de ambiente VONAGE_API_SECRET não foi configurada")
 	}
 
 	data := url.Values{}
@@ -34,7 +34,7 @@ func SendSMS(message string, phone string) {
 	endpoint := "https://rest.nexmo.com/sms/json"
 	r, err := http.NewRequest("POST", endpoint, strings.NewReader(data.Encode()))
 	if err != nil {
-		panic(fmt.Sprintf("Request not allowed. See error below\n%s", err))
+		return fmt.Errorf("requisição não permitida: %s", err)
 	}
 
 	r.Header.Add("Content-Type", "application/x-www-form-urlencoded")
@@ -43,16 +43,16 @@ func SendSMS(message string, phone string) {
 	client := &http.Client{}
 	res, err := client.Do(r)
 	if err != nil {
-		panic(fmt.Sprintf("Error on URL invoke. See error below\n%s", err))
+		return fmt.Errorf("erro de envio de requisição: %s", err)
 	}
 	defer res.Body.Close()
 
 	log.Println(res.Status)
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		panic(fmt.Sprintf("Error when read response body. See error below\n%s", err))
+		return fmt.Errorf("erro ao ler corpo de resposta: %s", err)
 	}
 
 	fmt.Println(string(body))
-
+	return nil
 }

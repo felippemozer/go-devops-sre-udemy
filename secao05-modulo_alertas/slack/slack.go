@@ -7,15 +7,15 @@ import (
 	"github.com/slack-go/slack"
 )
 
-func SendSlack(alertText string) {
+func SendSlack(alertText string) error {
 	token := os.Getenv("SLACK_AUTH_TOKEN")
 	if token == "" {
-		panic("SLACK_AUTH_TOKEN não foi configurado")
+		return fmt.Errorf("variável de ambiente SLACK_AUTH_TOKEN não foi configurada")
 	}
 
 	channelID := os.Getenv("SLACK_CHANNEL_ID")
 	if channelID == "" {
-		panic("SLACK_CHANNEL_ID não foi configurado")
+		return fmt.Errorf("variável de ambiente SLACK_CHANNEL_ID não foi configurada")
 	}
 
 	client := slack.New(token, slack.OptionDebug(true))
@@ -30,8 +30,9 @@ func SendSlack(alertText string) {
 		slack.MsgOptionAttachments(attachment),
 	)
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("erro ao postar mensagem: %s", err)
 	}
 
 	fmt.Println("Mensagem enviada com sucesso para o canal ID", channelID, "às", timestamp)
+	return nil
 }

@@ -14,12 +14,12 @@ type Body struct {
 	Datetime string
 }
 
-func SendEmail(to []string, subject string, bodyStruct Body, templatePath string) {
+func SendEmail(to []string, subject string, bodyStruct Body, templatePath string) error {
 	from := "felippemozer22@gmail.com"
 	pass := os.Getenv("FELIPPE_PASSWORD")
 
 	if pass == "" {
-		panic("FELIPPE_PASSWORD não foi configurado")
+		return fmt.Errorf("variável de ambiente FELIPPE_PASSWORD não foi configurada")
 	}
 
 	smtpHost := "smtp.gmail.com"
@@ -39,9 +39,9 @@ func SendEmail(to []string, subject string, bodyStruct Body, templatePath string
 	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, body.Bytes())
 
 	if err != nil {
-		fmt.Println("Erro ao enviar o email:", err)
-		os.Exit(1)
+		return fmt.Errorf("erro ao enviar o email: %s", err)
 	}
 
 	fmt.Println("Email enviado com sucesso!")
+	return nil
 }
