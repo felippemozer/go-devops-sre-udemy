@@ -15,12 +15,12 @@ func SendSMS(message string, phone string) {
 
 	apiKey := os.Getenv("VONAGE_API_KEY")
 	if apiKey == "" {
-		panic("VONAGE_API_KEY não foi setado")
+		panic("VONAGE_API_KEY não foi configurado")
 	}
 
 	apiSecret := os.Getenv("VONAGE_API_SECRET")
 	if apiSecret == "" {
-		panic("VONAGE_API_SECRET não foi setado")
+		panic("VONAGE_API_SECRET não foi configurado")
 	}
 
 	data := url.Values{}
