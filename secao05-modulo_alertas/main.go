@@ -1,7 +1,7 @@
 package main
 
 import (
-	"alertmanager/sms"
+	"alertmanager/telegram"
 	"os"
 
 	"github.com/joho/godotenv"
@@ -10,9 +10,13 @@ import (
 func main() {
 	godotenv.Load()
 
+	// felippeEmail := os.Getenv("FELIPPE_EMAIL")
+	// if felippeEmail == "" {
+	// 	panic("FELIPPE_EMAIL não foi configurado")
+	// }
 	// email.SendEmail(
 	// 	[]string{
-	// 		os.Getenv("FELIPPE_EMAIL"),
+	// 		felippeEmail,
 	// 	},
 	// 	"Alerta: Servidor Caiu!",
 	// 	email.Body{
@@ -25,5 +29,15 @@ func main() {
 
 	// slack.SendSlack("Alerta de servidor down: Google\nErro: Erro ao conectar no servidor\nHorário: 06/09/2023 21:35")
 
-	sms.SendSMS("Alerta de servidor down: Google\nErro: Erro ao conectar no servidor\nHorário: 06/09/2023 21:35", os.Getenv("FELIPPE_PHONE"))
+	// felippePhone := os.Getenv("FELIPPE_PHONE")
+	// if felippePhone == "" {
+	// 	panic("FELIPPE_PHONE não foi configurado")
+	// }
+	// sms.SendSMS("Alerta de servidor down: Google\nErro: Erro ao conectar no servidor\nHorário: 07/09/2023 15:27", felippePhone)
+
+	telegramApiKey := os.Getenv("TELEGRAM_API_KEY")
+	if telegramApiKey == "" {
+		panic("TELEGRAM_API_KEY não foi configurado")
+	}
+	telegram.SendTelegram(telegramApiKey, "Alerta de servidor down: Google\nErro: Erro ao conectar no servidor\nHorário: 07/09/2023 16:39")
 }
