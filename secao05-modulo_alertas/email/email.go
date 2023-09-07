@@ -1,0 +1,47 @@
+package email
+
+import (
+	"bytes"
+	"fmt"
+	"html/template"
+	"net/smtp"
+	"os"
+)
+
+type Body struct {
+	Server   string
+	Error    string
+	Datetime string
+}
+
+func SendEmail(to []string, subject string, bodyStruct Body, templatePath string) {
+	from := "felippemozer22@gmail.com"
+	pass := os.Getenv("FELIPPE_PASSWORD")
+
+	if pass == "" {
+		panic("FELIPPE_PASSWORD não foi configurado")
+	}
+
+	smtpHost := "smtp.gmail.com"
+	smtpPort := "587"
+
+	auth := smtp.PlainAuth("", from, pass, smtpHost)
+
+	t, _ := template.ParseFiles(templatePath)
+
+	var body bytes.Buffer
+
+	mimeHeaders := "MIME-version: 1.0;\nContent-type: text/html; charset=\"UTF-8\";\n\n"
+
+	body.Write([]byte(fmt.Sprintf("Subject: %s\n%s\n\n", subject, mimeHeaders)))
+	t.Execute(&body, bodyStruct)
+
+	err := smtp.SendMail(smtpHost+":"+smtpPort, auth, from, to, body.Bytes())
+
+	if err != nil {
+		fmt.Println("Erro ao enviar o email:", err)
+		os.Exit(1)
+	}
+
+	fmt.Println("Email enviado com sucesso!")
+}
