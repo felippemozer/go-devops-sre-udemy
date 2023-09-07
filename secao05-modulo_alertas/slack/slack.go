@@ -4,13 +4,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/joho/godotenv"
 	"github.com/slack-go/slack"
 )
 
-func SendSlack(alertText string, envPath string) {
-	godotenv.Load()
-
+func SendSlack(alertText string) {
 	token := os.Getenv("SLACK_AUTH_TOKEN")
 	if token == "" {
 		panic("SLACK_AUTH_TOKEN não foi configurado")
