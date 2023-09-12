@@ -1,6 +1,7 @@
 package main
 
 import (
+	"alertmanager/email"
 	"alertmanager/telegram"
 	"log"
 	"net/http"
@@ -23,31 +24,8 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/telegram", telegram.SendTelegram).Methods("POST")
+	router.HandleFunc("/email", email.SendEmail).Methods("POST")
 	log.Fatal(http.ListenAndServe(":9090", router))
-
-	// felippeEmail := os.Getenv("FELIPPE_EMAIL")
-	// if felippeEmail != "" {
-	// 	log.Printf("Enviando email para %s\n", felippeEmail)
-	// 	err := email.SendEmail(
-	// 		[]string{
-	// 			felippeEmail,
-	// 		},
-	// 		"Alerta: Servidor Caiu!",
-	// 		email.Body{
-	// 			Server:   "Google",
-	// 			Error:    "Erro ao conectar o servidor",
-	// 			Datetime: "06/03/2023 20:53",
-	// 		},
-	// 		"./email/template.html",
-	// 	)
-	// 	if err != nil {
-	// 		log.Printf("Não foi possível enviar o email para %s\n", felippeEmail)
-	// 		fmt.Println(err)
-	// 	}
-	// 	fmt.Println("Continuando execução...")
-	// } else {
-	// 	log.Println("Variável de ambiente FELIPPE_EMAIL não foi configurada. Pulando execução de envio de email...")
-	// }
 
 	// log.Println("Enviando Slack para canal Alertas")
 	// err := slack.SendSlack("Alerta de servidor down: Google\nErro: Erro ao conectar no servidor\nHorário: 06/09/2023 21:35")
