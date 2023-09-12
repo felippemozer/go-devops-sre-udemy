@@ -2,6 +2,7 @@ package main
 
 import (
 	"alertmanager/email"
+	"alertmanager/slack"
 	"alertmanager/telegram"
 	"log"
 	"net/http"
@@ -25,15 +26,8 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/telegram", telegram.SendTelegram).Methods("POST")
 	router.HandleFunc("/email", email.SendEmail).Methods("POST")
+	router.HandleFunc("/slack", slack.SendSlack).Methods("POST")
 	log.Fatal(http.ListenAndServe(":9090", router))
-
-	// log.Println("Enviando Slack para canal Alertas")
-	// err := slack.SendSlack("Alerta de servidor down: Google\nErro: Erro ao conectar no servidor\nHorário: 06/09/2023 21:35")
-	// if err != nil {
-	// 	log.Printf("Não foi possível enviar o Slack para o canal Alertas\n")
-	// 	fmt.Println(err)
-	// }
-	// fmt.Println("Continuando execução...")
 
 	// felippePhone := os.Getenv("FELIPPE_PHONE")
 	// if felippePhone != "" {
