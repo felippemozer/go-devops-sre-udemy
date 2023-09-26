@@ -1,2 +1,8 @@
+# Environment files
 .env*
+
+# Log files
 *.log
+
+# Binary folder
+bin
