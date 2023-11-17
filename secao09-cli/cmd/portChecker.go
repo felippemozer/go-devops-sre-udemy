@@ -12,13 +12,14 @@ import (
 // portCheckerCmd represents the portChecker command
 var portCheckerCmd = &cobra.Command{
 	Use:   "portChecker",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Verificar quais portas estão abertas para um host",
+	Long: `Checa uma lista de portas de um host para verificar
+	quais portas estão abertas para acesso e quais estão fechadas.
+	
+	Exemplo de uso:
+		./cli portChecker --h www.google.com
+		./cli portChecker --h www.google.com --p 80,443,22,56
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		host, _ := cmd.Flags().GetString("h")
 		ports, _ := cmd.Flags().GetString("p")
@@ -31,5 +32,5 @@ func init() {
 	rootCmd.AddCommand(portCheckerCmd)
 
 	portCheckerCmd.PersistentFlags().String("h", "", "Host a ser validado")
-	portCheckerCmd.PersistentFlags().String("p", "", "Lista de portas separada por vírgula. Ex: 80,443,22")
+	portCheckerCmd.PersistentFlags().String("p", "443", "Lista de portas separada por vírgula. Ex: 80,443,22")
 }

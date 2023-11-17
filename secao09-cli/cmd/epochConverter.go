@@ -12,13 +12,13 @@ import (
 // epochConverterCmd represents the epochConverter command
 var epochConverterCmd = &cobra.Command{
 	Use:   "epochConverter",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Converte um UNIX epoch time para Data",
+	Long: `Converte uma entrada no formato UNIX epoch para o formato
+	de Data. 
+	
+	Exemplo de uso;
+		./cli epochConverter --e 1700094502
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		epoch, _ := cmd.Flags().GetString("e")
 

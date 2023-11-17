@@ -13,13 +13,14 @@ import (
 // passwordGeneratorCmd represents the passwordGenerator command
 var passwordGeneratorCmd = &cobra.Command{
 	Use:   "passwordGenerator",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Gerador de senhas",
+	Long: `Um gerador de senhas pseudorandomicas. Necessário um mínimo de 8
+	caracteres por senha gerada.
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Exemplos de uso:
+		./cli passwordGenerator (sem opção: gera senhas com 16 caracteres)
+		./cli passwordGenerator --s 32
+	`,
 	Run: func(cmd *cobra.Command, args []string) {
 		size, _ := cmd.Flags().GetInt("s")
 		fmt.Println(utils.GeneratePassword(size))
@@ -28,5 +29,5 @@ to quickly create a Cobra application.`,
 
 func init() {
 	rootCmd.AddCommand(passwordGeneratorCmd)
-	passwordGeneratorCmd.PersistentFlags().Int("s", 16, "Tamanho da senha")
+	passwordGeneratorCmd.PersistentFlags().Int("s", 16, "Tamanho da senha (Mínimo de 8 caracteres)")
 }

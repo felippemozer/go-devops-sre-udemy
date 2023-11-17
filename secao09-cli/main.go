@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 FELIPPE MOZER
 
 */
 package main
@@ -9,3 +9,4 @@ import "cli/cmd"
 func main() {
 	cmd.Execute()
 }
+
